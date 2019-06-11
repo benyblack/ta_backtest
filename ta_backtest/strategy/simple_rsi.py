@@ -1,15 +1,11 @@
-import talib
-import numpy as np
-import pandas as pd
+import ta_backtest.tools.rsi as rsi
+
 
 def can_buy(data: [float], index: int):
-    df = pd.DataFrame(data=data[0:index+1])
-    arr = np.array(df[0], dtype=np.dtype('d'))
-    rsi = talib.RSI(arr, 14)
-    return rsi[-1]<30
+    last_rsi = rsi.last_rsi(data[0:index+1])
+    return last_rsi < 30
+
 
 def can_sell(data: [float], index: int):
-    df = pd.DataFrame(data=data[0:index+1])
-    arr = np.array(df[0], dtype=np.dtype('d'))
-    rsi = talib.RSI(arr, 14)
-    return rsi[-1]>70
+    last_rsi = rsi.last_rsi(data[0:index+1])
+    return last_rsi > 70
