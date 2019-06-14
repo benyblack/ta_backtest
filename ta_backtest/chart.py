@@ -27,17 +27,17 @@ def create_plot_oscillator(related_plot):
 
 
 def add_line_to_plot(plot, data_title, data_date, data_close, color):
-    plot.line(data_date, data_close, color=color, legend=data_title)
+    plot.line(datetime(data_date), data_close, color=color, legend=data_title)
     return plot
 
 
 def add_up_to_plot(plot, data_title, data_date, data_close, color="green"):
-    plot.triangle(x=data_date, y=data_close, color=color, legend=data_title)
+    plot.triangle(x=datetime(data_date), y=data_close, color=color, legend=data_title)
     return plot
 
 
 def add_down_to_plot(plot, data_title, data_date, data_close, color="red"):
-    plot.inverted_triangle(x=data_date, y=data_close,
+    plot.inverted_triangle(x=datetime(data_date), y=data_close,
                            color=color, legend=data_title)
     return plot
 
