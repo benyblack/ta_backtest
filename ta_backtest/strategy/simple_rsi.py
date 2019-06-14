@@ -20,15 +20,15 @@ def do_trades(data: [], init_cash: float) -> (float, {}):
     def buy(buy_index, cash, old_history):
         new_transaction = {buy_index: {'type': 'BUY', 'price': data[buy_index], 'cash': cash}}
         new_history = {**old_history, **new_transaction}
-        sell_indexes = [index for index, val in enumerate(sell_points) if index > buy_index]
+        sell_indexes = [index for index in sell_points if index > buy_index]
         if len(sell_indexes) == 0:
             return cash, new_history
         return sell(sell_indexes[0], buy_index, cash, new_history)
 
     def sell(sell_index, buy_index, cash, old_history):
-        new_transaction = {buy_index: {'type': 'SELL', 'price': data[buy_index], 'cash': cash}}
+        new_transaction = {sell_index: {'type': 'SELL', 'price': data[sell_index], 'cash': cash}}
         new_history = {**old_history, **new_transaction}
-        buy_indexes = [index for index, val in enumerate(buy_points) if index > sell_index]
+        buy_indexes = [index for index in buy_points if index > sell_index]
         if len(buy_indexes) == 0:
             return cash, new_history
         return buy(buy_indexes[0], (data[sell_index]/data[buy_index])*cash, new_history)
