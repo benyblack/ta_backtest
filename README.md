@@ -1,3 +1,7 @@
 ## TA Backtesting
 
-The goal of this project is to build a framework for myself to implement different back testing scenario easily. It is not going to be a general porpose framework and I try to keep it as simple as possible.
+Goals of the project
+1. To build a framework for myself to implement different back testing scenario easily. 
+2. Trying to code in functional programming style with python (which is a bit difficult)
+
+I am going to change my mind about this and start to convert it to Elixir which is more suitable for functional style. But I will need some parts will remain in python.
