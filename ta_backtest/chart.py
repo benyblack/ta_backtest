@@ -11,7 +11,7 @@ def datetime(x):
 
 
 def create_plot(chart_title):
-    plot = figure(x_axis_type="datetime", title=chart_title, plot_height=600, width=1000)
+    plot = figure(x_axis_type="datetime", title=chart_title, plot_height=500, width=1000)
     plot.grid.grid_line_alpha = 0.3
     plot.xaxis.axis_label = 'Date'
     plot.yaxis.axis_label = 'Price'
@@ -22,12 +22,25 @@ def create_plot_oscillator(related_plot):
     plot = figure(x_axis_type="datetime", x_range=related_plot.x_range, plot_height=150, width=1000)
     plot.grid.grid_line_alpha = 0.3
     plot.xaxis.axis_label = 'Date'
+    plot.yaxis.axis_label = 'Value'
+    return plot
+
+
+def create_plot_trades(related_plot):
+    plot = figure(x_axis_type="datetime", x_range=related_plot.x_range, plot_height=150, width=1000)
+    plot.grid.grid_line_alpha = 0.3
+    plot.xaxis.axis_label = 'Date'
     plot.yaxis.axis_label = 'Price'
     return plot
 
 
 def add_line_to_plot(plot, data_title, data_date, data_close, color):
     plot.line(datetime(data_date), data_close, color=color, legend=data_title)
+    return plot
+
+
+def add_line_to_plot_with_yrange(plot, data_title, data_date, data_close, color, y_range_name):
+    plot.line(datetime(data_date), data_close, color=color, legend=data_title, y_range_name=y_range_name)
     return plot
 
 
@@ -42,13 +55,12 @@ def add_down_to_plot(plot, data_title, data_date, data_close, color="red"):
     return plot
 
 
-def show_plot(plot, oscillator=None):
+def show_plot(plot, oscillator, trades):
     plot.legend.location = "top_left"
-    output_file("stocks.html", title="stocks.py example")
-    if oscillator is None:
-        show(column(children=[plot]))
-    else:
-        show(column(children=[plot, oscillator]))
+    oscillator.legend.location = "top_left"
+    trades.legend.location = "top_left"
+    output_file("chart.html", title=plot.title.text)
+    show(column(children=[plot, oscillator, trades]))
 
 
 # Example of how to use this code
