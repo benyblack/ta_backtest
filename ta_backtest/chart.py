@@ -1,9 +1,7 @@
 import numpy as np
 from bokeh.layouts import column
 from bokeh.plotting import figure, show, output_file
-# imports for the example
-# import random
-# from bokeh.sampledata.stocks import AAPL, GOOG, IBM, MSFT
+from bokeh.models import LinearAxis, Range1d
 
 
 def datetime(x):
@@ -63,17 +61,41 @@ def show_plot(plot, oscillator, trades):
     show(column(children=[plot, oscillator, trades]))
 
 
-# Example of how to use this code
-# plot = create_plot("My chart title")
-# new_plot = add_line_to_plot(plot, "APPL", datetime(
-#     AAPL['date']), AAPL['adj_close'], '#33A02C')
-# new_plot = add_up_to_plot(plot, "GOOG", datetime(GOOG['date']), GOOG['adj_close'])
-# new_plot = add_down_to_plot(plot, "MSFT", datetime(MSFT['date']), MSFT['adj_close'])
+def make_chart(pair_name: str, data: [], date_data: [], oscillator_data: [{}], trade_history: {}):
+    # 1. create main chart and add series to it
+    plot = create_plot(pair_name)
+    line_colors = ['lightgray', 'blue', 'maroon']
+    add_line_to_plot(plot, pair_name, date_data, data, line_colors[0])
 
-# oscillator = create_plot_oscillator(new_plot)
-# indicator = []
-# for x in IBM['adj_close']:
-#     indicator.append(random.random()*100)
+    # 2. Add BUY and SELL points to the main char
+    buy_indexes = [x for x in trade_history if trade_history[x]['type'] == 'BUY']
+    buy_prices = [data[x] for x in buy_indexes]
+    buy_dates = [date_data[x] for x in buy_indexes]
 
-# add_line_to_plot(oscillator, "IBM", datetime(IBM['date']), indicator, 'blue')
-# show_plot(new_plot, oscillator)
+    sell_indexes = [x for x in trade_history if trade_history[x]['type'] == 'SELL']
+    sell_prices = [data[x] for x in sell_indexes]
+    sell_dates = [date_data[x] for x in sell_indexes]
+    add_up_to_plot(plot, "Buys", buy_dates, buy_prices)
+    add_down_to_plot(plot, "Sells", sell_dates, sell_prices)
+
+    # 3. Create oscillator and add series to it
+    oscillator = create_plot_oscillator(plot)
+
+    def add_to_oscillator(item):
+        add_line_to_plot(oscillator, item["title"], date_data, item["data"], line_colors[0])
+
+    list(map(add_to_oscillator, oscillator_data))
+
+    # 4. Add Cach + buy and sell data
+    trades = create_plot_trades(plot)
+    if len(trade_history) > 0:
+        cash_history = [trade_history[x]['cash'] for x in trade_history]
+        cash_dates = [date_data[x] for x in trade_history]
+        cash_min = min(cash_history)
+        cash_max = max(cash_history)
+        add_up_to_plot(trades, "Buys", buy_dates, buy_prices)
+        add_down_to_plot(trades, "Sells", sell_dates, sell_prices)
+        trades.extra_y_ranges = {"cash": Range1d(start=cash_min/1.2, end=cash_max*1.2)}
+        trades.add_layout(LinearAxis(y_range_name="cash", axis_label="Cash"), 'right')
+        add_line_to_plot_with_yrange(trades, "Cash", cash_dates, cash_history, line_colors[0], 'cash')
+    return (plot, oscillator, trades)

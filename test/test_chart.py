@@ -47,6 +47,15 @@ class TestChart(unittest.TestCase):
         self.assertEqual(new_plot.renderers[0].data_source.data['y'], data_close)
         self.assertIsInstance(new_plot.renderers[0].glyph, bokeh.models.glyphs.InvertedTriangle)
 
+    def test_make_chart(self):
+        data_date = ['2019-01-01', '2019-01-02', '2019-01-03']
+        data_close = [1, 2, 3]
+        data_oscilator = [{'title': 'test title', 'data': [1, 2, 3]}]
+        try:
+            chart.make_chart("test", data_close, data_date, data_oscilator, {})
+        except Exception:
+            self.fail("make_chart raised ExceptionType unexpectedly!")
+
 
 if __name__ == '__main__':
     unittest.main()
