@@ -9,7 +9,9 @@ import ta_backtest.chart as chart
 data = loader.from_csv('./1h-BTCUSDT.csv')
 close_data = [x for x in data.Close]
 date_data = [x for x in data.DateTime]
-cash, trade_history = simple_rsi.do_trades(data.Close, 1)
+cash = 1
+commision = 0.001
+cash, trade_history = simple_rsi.do_trades(data.Close, cash, commision)
 
 oscillator_data = [{'title': 'RSI 14', 'data': rsi(close_data)}]
 

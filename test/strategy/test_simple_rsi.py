@@ -27,7 +27,7 @@ class TestSimpleRsi(unittest.TestCase):
     def test_do_trades(self):
         data = [x for x in range(1, 100)]
         try:
-            rsi.do_trades(data, 1)
+            rsi.do_trades(data, 1, 0.001)
         except Exception:
             self.fail("do_trades(data, cash) raised ExceptionType unexpectedly!")
 
