@@ -31,6 +31,14 @@ class TestSimpleRsi(unittest.TestCase):
         except Exception:
             self.fail("do_trades(data, cash) raised ExceptionType unexpectedly!")
 
+    def test_potential_trades(self):
+        data = [x for x in range(1, 100)]
+        try:
+            rsi.potential_trades(data)
+        except Exception:
+            self.fail("do_trades(data, cash) raised ExceptionType unexpectedly!")
+
+
 
 if __name__ == '__main__':
     unittest.main()

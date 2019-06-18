@@ -9,13 +9,18 @@ def can_sell(rsi_list: [float], index: int):
     return rsi_list[index] > 70
 
 
-def do_trades(data: [], init_cash: float, commision: float) -> (float, {}):
+def potential_trades(data):
     rsi_list = rsi.rsi(data)
     buy_points = [index for index, val in enumerate(data) if can_buy(rsi_list, index)]
-    if len(buy_points) == 0:
-        return init_cash
     sell_points = [index for index, val in enumerate(data) if can_sell(rsi_list, index)]
+    return buy_points, sell_points
+
+
+def do_trades(data: [], init_cash: float, commision: float) -> (float, {}):
+    buy_points, sell_points = potential_trades(data)
     history = {}
+    if len(buy_points) == 0:
+        return init_cash, history
 
     def buy(buy_index, cash, old_history):
         new_cash = cash * (1 - commision)
