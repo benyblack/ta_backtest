@@ -39,6 +39,5 @@ class TestSimpleRsi(unittest.TestCase):
             self.fail("do_trades(data, cash) raised ExceptionType unexpectedly!")
 
 
-
 if __name__ == '__main__':
     unittest.main()
