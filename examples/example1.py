@@ -5,6 +5,7 @@ from ta_backtest.tools import data_loader as loader
 from ta_backtest.tools.rsi import rsi as rsi
 import ta_backtest.chart as chart
 import ta_backtest.strategy.percent_jump as percent
+import ta_backtest.strategy.trader as trader
 
 
 data = loader.from_csv('./1h-BTCUSDT.csv')
@@ -14,9 +15,13 @@ cash = 1
 commision = 0.001
 
 # Strategy:
-#
-# cash, trade_history = simple_rsi.do_trades(data.Close, cash, commision)
-cash, trade_history = percent.do_trades(data.Close, cash, commision)
+# 1. Simple RSI
+# potential_trades = simple_rsi.potential_trades(data.Close)
+# cash, trade_history = trader.do_trades(data.Close, potential_trades, cash, commision)
+
+# 2. Percent jump
+potential_trades = percent.potential_trades(data.Close)
+cash, trade_history = trader.do_trades(data.Close, potential_trades, cash, commision)
 
 # Indicator(s)
 oscillator_data = [{'title': 'RSI 14', 'data': rsi(close_data)}]
