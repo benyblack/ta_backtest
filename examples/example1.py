@@ -27,7 +27,7 @@ commision = 0.001
 
 # 3. SMA cross-over
 potential_trades = sma_crossover.potential_trades(data.Close)
-cash, trade_history = trader.do_trades(data.Close, potential_trades, cash, commision)
+new_cash, trade_history = trader.do_trades(data.Close, potential_trades, cash, commision)
 
 # Indicator(s)
 oscillator_data = [{'title': 'RSI 14', 'data': rsi(close_data)}]

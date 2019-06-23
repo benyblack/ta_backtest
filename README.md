@@ -8,4 +8,4 @@ I am going to change my mind about this and start to convert it to Elixir which 
 
 ### Sample output on RSI simple strategy:
 
-<img width="1034" alt="example1" src="https://user-images.githubusercontent.com/772474/59753776-2163b900-9285-11e9-9335-f0d6533d6b0b.png">
+![image](https://user-images.githubusercontent.com/772474/59975346-9c93da80-95b7-11e9-8025-ec52b6230cce.png)
