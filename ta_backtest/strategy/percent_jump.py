@@ -1,5 +1,6 @@
 BUY_PERCENT_LIMIT = 5
 SELL_PERCENT_LIMIT = 2
+STOP_LOSS_PERCENT = -1
 
 
 def get_percent(a, b):
@@ -16,10 +17,13 @@ def can_buy(data: [float], index: int):
 def can_sell(data: [float], buy_points: [float], index: int):
     if buy_points == []:
         return False
-    last_buy_index = max([i for i, x in enumerate(buy_points) if i < data[index]])
+    prev_buy_indexes = [i for i in buy_points if i < index]
+    if len(prev_buy_indexes) == 0:
+        return False
+    last_buy_index = max(prev_buy_indexes)
     sell_percent = get_percent(data[index], data[last_buy_index])
     distance = index - last_buy_index
-    return sell_percent >= SELL_PERCENT_LIMIT or distance > 3
+    return sell_percent >= SELL_PERCENT_LIMIT or distance > 3 or sell_percent < STOP_LOSS_PERCENT
 
 
 def potential_trades(data):
