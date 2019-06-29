@@ -6,6 +6,6 @@ Goals of the project
 
 I am going to change my mind about this and start to convert it to Elixir which is more suitable for functional style. But I will need some parts remain in python.
 
-### Sample output on RSI simple strategy:
+### Sample output on SMA cross over strategy:
 
 ![image](https://user-images.githubusercontent.com/772474/59975346-9c93da80-95b7-11e9-8025-ec52b6230cce.png)
